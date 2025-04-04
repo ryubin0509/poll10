@@ -13,10 +13,12 @@
 	
 		ArrayList<String> contentList =  new ArrayList<>();
 		for(String s : content){
-			if(!content.equals("")){
+			if(!s.equals("")){
 				contentList.add(s);
 			}
 		}
+		
+		System.out.println("content:"+contentList);
 
 		Question question = new Question( );
 		question.setTitle(title);

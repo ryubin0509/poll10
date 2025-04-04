@@ -33,11 +33,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- Latest compiled and minified CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <title>pollList</title>
 </head>
 <body>
 <h1> 투표리스트</h1>
-<table border="1">
+<table class="table table-dark table-striped ">
 <tr>
 	<th>투표번호</th>
 	<th>주제</th>
@@ -46,6 +52,7 @@
 	<th>유형</th>
 	<th>투표하기 </th>
 	<th>삭제하기	</th>
+	<th>	수정	</th>
 </tr>
 
 <%
@@ -58,7 +65,15 @@ for( HashMap<String, Object> question : questionList) {
 		  System.out.println("시작날짜"+startdate);
 		  
 		 LocalDate startdate1 = LocalDate.parse(startdate,formatter); 
-		 LocalDate enddate1 =  LocalDate.parse(enddate,formatter);	
+		 LocalDate enddate1 =  LocalDate.parse(enddate,formatter);
+		 
+		 Item item = new Item();
+		 ItemDao itemdao = new ItemDao();
+		 
+		 int qnum = (Integer) question.get("num");
+		
+		 System.out.println("qnum :"+ qnum);  // 정상출력
+		 int count = itemdao.checkCount(qnum);
 	%>
 <tr> 
 	<td><%=question.get("num")%></td>
@@ -71,9 +86,27 @@ for( HashMap<String, Object> question : questionList) {
 			<%}else if (now.isAfter(enddate1)){ %>
 			<a href="">투표종료</a>
 		   <%	}else { %>
-			<a href="">투표중</a>
+			<a href="/poll10/updateItemForm.jsp?qnum=<%=qnum%>">투표하기</a>
 			<% }%>	  
 		 </td>
+	 <td>
+	 <% 
+	 		if(count == 0){		   //  투표한 카운트 수가 없다면 삭제가 가능하다.
+	 %> 							
+	  	  <a href="/poll10/deleteAction.jsp?qnum=<%=qnum%>">삭제</a>
+	 <%
+	 		}
+	 %>			
+	 </td>
+	 <td>
+ 	 <% 
+	 		if(count == 0){		   //  투표한 카운트 수가 없다면 설문지 수정이 가능하다.
+	 %> 							
+	  	  <a href="/poll10/updatePollForm.jsp?qnum=<%=qnum%>">수정</a>
+	 <%
+	 		}
+	 %>	
+	 </td>
 </tr>
 <%
 } 

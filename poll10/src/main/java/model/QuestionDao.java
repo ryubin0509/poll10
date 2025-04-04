@@ -10,7 +10,7 @@ import dto.Question;
 import dto.Paging;
 public class QuestionDao {
 	
-	public int questionTotalList() throws ClassNotFoundException, SQLException {	// 전체 출력 메소드
+	public int questionTotalList() throws ClassNotFoundException, SQLException {	// 전체  설문리스트 
 																											
 		int total = 0;   
 		String sql = "select count(*) from question";
@@ -29,8 +29,6 @@ public class QuestionDao {
 	
 	
 	// 쿼리 생성과 추출을 한번에 한다.
-
-	
 	public  int  insertQuestion(Question question) throws ClassNotFoundException, SQLException {
 		String sql = "insert into question(title, startdate, enddate, type) values(?,?,?,?)";
 		int pk= 0;
@@ -54,6 +52,7 @@ public class QuestionDao {
 		
 	}
 	
+	// 
 	public  ArrayList<HashMap<String,Object>>selectQuestion(Paging p) throws ClassNotFoundException ,SQLException{
 		ArrayList<HashMap<String,Object>> map = new ArrayList<HashMap<String,Object>>( );
 		Class.forName("com.mysql.cj.jdbc.Driver");
@@ -89,9 +88,55 @@ public class QuestionDao {
 		return map; 
 	}
 		
+	public void deleteQuestion(int qnum) throws ClassNotFoundException , SQLException{  // 특정 qnum의 Question 행 삭제
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/pool", "root", "java1234"); 
+		PreparedStatement stmt = null; 
+		String sql = "delete from question where num = ? "; 
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, qnum);
+		
+		stmt.executeUpdate();
+		
+		
+		
+		
+	}
 
+	 public ArrayList<HashMap<String,Object>> selectQuestionOne(int qnum) throws ClassNotFoundException, SQLException {  // Question 1행 출력 메소드
+		 Class.forName("com.mysql.cj.jdbc.Driver");
+		 ArrayList<HashMap<String,Object>> list = new ArrayList<>();
+		 Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/pool", "root", "java1234"); 
+		 PreparedStatement stmt = null;
+		 ResultSet rs = null;
+		 String sql =  "SELECT"
+					  +   " num,"
+					  +   " title,"
+					  +   " startdate AS startDate,"
+					  +   " enddate AS endDate,"
+					  +   " createdate AS createDate,"
+					  +   " type"
+					  +   " FROM question "
+					  +   " where num = ? ";
+		 
+		 stmt = conn.prepareStatement(sql);
+		 stmt.setInt(1 , qnum);
+		 rs = stmt.executeQuery(); 
+		 
+		 while(rs.next()) {
+			 HashMap<String,Object> map = new  HashMap<String ,Object>();
+			 map.put("num", rs.getInt("num"));
+			 map.put("title", rs.getString("title"));
+			 map.put("startDate", rs.getString("startDate"));
+			 map.put("endDate", rs.getString("endDate"));
+			 map.put("type", rs.getInt("type"));
 
-	
+			 list.add(map);
+		 }
+		 
+		 return list; 
+		 
+	 }
 	
 	
 	
