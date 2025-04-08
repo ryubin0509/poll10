@@ -43,11 +43,11 @@
 		<%
 		if(type==0){
 		%>
-		<input type="radio"  name ="inum"  value="<%=item.getInum()%>">
+		<div><input type="radio"  name ="inum"  value="<%=item.getInum()%>"></div>
 		<%
 		} else if(type ==1){
 		%>
-		<input type= "checkbox" name="inum" value="<%=item.getInum()%>">
+		<div><input type= "checkbox" name="inum" value="<%=item.getInum()%>"></div>
 		<%
 		}
 		%>

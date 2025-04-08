@@ -10,7 +10,7 @@ import dto.Question;
 import dto.Paging;
 public class QuestionDao {
 	
-	public int questionTotalList() throws ClassNotFoundException, SQLException {	// 전체  설문리스트 
+	public int questionTotalList() throws ClassNotFoundException, SQLException {	// 전체  설문리스트 갯수 출력
 																											
 		int total = 0;   
 		String sql = "select count(*) from question";
@@ -138,7 +138,38 @@ public class QuestionDao {
 		 
 	 }
 	
+	 public void updateQuestion(Question question) throws ClassNotFoundException, SQLException { // question 행을 업데이트하는 정보
+		 Class.forName("com.mysql.cj.jdbc.Driver");
+		 Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/pool", "root", "java1234"); 
+		 PreparedStatement stmt = null;
+		 String sql =  "UPDATE question "
+		 			  + "SET title = ? , startdate = ?, enddate = ? , TYPE = ? "
+		 			  + "WHERE num = ?  "; 
+		 stmt = conn.prepareStatement(sql);
+		 stmt.setString(1, question.getTitle());
+		 stmt.setString(2, question.getStartdate());
+		 stmt.setString(3, question.getEnddate());
+		 stmt.setInt(4,question.getType());
+		 stmt.setInt(5,question.getNum());
+		 
+		 stmt.executeUpdate();
+		 
+	 }
 	
+	 public void updateEnddateQuestion(Question question) throws ClassNotFoundException, SQLException { // question 행을 업데이트하는 정보
+		 Class.forName("com.mysql.cj.jdbc.Driver");
+		 Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/pool", "root", "java1234"); 
+		 PreparedStatement stmt = null;
+		 String sql =  "UPDATE question "
+		 			  + " SET  enddate = ? "
+		 			  + " WHERE num = ?  "; 
+		 stmt = conn.prepareStatement(sql);
+		 stmt.setString(1, question.getEnddate());
+		 stmt.setInt(2,question.getNum());
+		 
+		 stmt.executeUpdate();
+		 
+	 }
 	
 	
 

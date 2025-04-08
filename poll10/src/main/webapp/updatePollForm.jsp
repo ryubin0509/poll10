@@ -3,18 +3,19 @@
 	int qnum = Integer.parseInt(request.getParameter("qnum")); 
 	
 %>
+ 
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>insertPollForm</title>
+<title>updatePollForm</title>
 </head>
 <body>
 	<h1>투표프로그램</h1>
 	<hr>
 	<h2>설문작성</h2>
-	<form method="post" action="/poll10/insertPollAction.jsp">
+	<form method="post" action="/poll10/updatePollAction.jsp?qnum=<%=qnum%>">
 		<table border="1">
 			<tr>
 				<td>질문</td>

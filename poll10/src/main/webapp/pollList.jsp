@@ -53,6 +53,8 @@
 	<th>투표하기 </th>
 	<th>삭제하기	</th>
 	<th>	수정	</th>
+	<th>마감날짜수정</th>
+	<th>결과보기 </th>
 </tr>
 
 <%
@@ -107,6 +109,17 @@ for( HashMap<String, Object> question : questionList) {
 	 		}
 	 %>	
 	 </td>
+	 <td> 
+	 	<%if(now.isBefore(enddate1) || now.isEqual(enddate1)){%>
+	 		<a href="/poll10/enddatePollForm.jsp?qnum=<%=qnum%>">마감날짜수정</a>
+	 	<%  }%>
+	 </td>
+	 <td>
+	 	<%if(now.isAfter(enddate1)){%>
+	 		<a href="/poll10/resultItem.jsp?qnum=<%=qnum%>">결과보기</a>
+	 	<% } %>
+	 </td>
+	 
 </tr>
 <%
 } 
