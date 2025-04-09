@@ -1,0 +1,64 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import = "dto.*" %>
+<%@ page import = "model.*" %>
+<%@ page import = "java.util.*" %>
+<%
+	int currentPage = 1;
+	if(request.getParameter("currentPage") != null) {
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
+	int rowPerPage = 30;
+	
+	Paging p = new Paging();
+	p.setCurrentPage(currentPage);
+	p.setRowPerPage(rowPerPage);
+	p.getBeginRow();
+	
+	Board board = new Board();
+	BoardDao boardDao = new BoardDao();
+	
+	ArrayList<Board> list = boardDao.selectBoardList(p);
+	
+	
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>boardList</title>
+	<!-- Latest compiled and minified CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	
+	<!-- Latest compiled JavaScript -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+	<h1>BoardList</h1>
+	
+	<!-- nav.jsp 인클루드 -->
+	<div>
+		<jsp:include page="/inc/nav.jsp"></jsp:include>
+	</div>
+
+	<!-- boardlist table... -->
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			 <th>num</th>
+			 <th>subject	</th>
+		</tr>
+	<% for(Board b  : list ){ %>
+		<tr>
+			<td><%=b.getNum()%></td>
+			<td>	<%for(int i=0; i<b.getDepth(); i++){ %>
+			
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				
+			<% }%> 
+			 <a href="/poll10/board/boardOne.jsp?num=<%=b.getNum()%>" ><%=b.getSubject()%></a></td> 
+		<tr>
+	<%}%>
+		</thead>
+	</table>
+</body>
+</html>
